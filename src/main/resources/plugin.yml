@@ -1,0 +1,6 @@
+name: AkumaKOTH
+version: '${project.version}'
+main: xyz.raitaki.AkumaKOTH.AkumaKOTH
+commands:
+  arena:
+    permission: akumakoth.arena
