@@ -21,7 +21,7 @@ import java.util.*;
 
 public class KOTHArena {
 
-    public static HashMap<String, KOTHArena> arenas = new HashMap<>();
+    public static List<KOTHArena> arenas = new ArrayList<>();
 
     private HashMap<Player, Integer> points;
     private KOTHHologram hologram;
@@ -56,7 +56,7 @@ public class KOTHArena {
         this.items = ItemUtil.deserializeItems(config.getString(name + ".inventory"));
         active = false;
         setLastCapture();
-        arenas.put(name, this);
+        arenas.add(this);
     }
 
     public void start(){
@@ -211,7 +211,12 @@ public class KOTHArena {
     }
 
     public static KOTHArena getArena(String name){
-        return arenas.get(name);
+        for(KOTHArena arena : arenas){
+            if(arena.getName().equalsIgnoreCase(name)){
+                return arena;
+            }
+        }
+        return null;
     }
 
     public static void createDefaultArena(String name){
@@ -239,11 +244,6 @@ public class KOTHArena {
             arena.getTask().getRunnable().cancel();
 
         arenas.remove(name);
-    }
-
-
-    public static HashMap<String, KOTHArena> getArenas() {
-        return arenas;
     }
 
     public HashMap<Player, Integer> getPoints() {
