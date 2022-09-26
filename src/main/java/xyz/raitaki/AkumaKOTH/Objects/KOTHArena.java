@@ -12,6 +12,8 @@ import xyz.raitaki.AkumaKOTH.AkumaKOTH;
 import xyz.raitaki.AkumaKOTH.Objects.Events.KOTHStartEvent;
 import xyz.raitaki.AkumaKOTH.Objects.Events.KOTHCapEvent;
 import xyz.raitaki.AkumaKOTH.Utils.ConfigManager;
+import xyz.raitaki.AkumaKOTH.Utils.ItemUtil;
+import xyz.raitaki.AkumaKOTH.Utils.LocationUtil;
 import xyz.raitaki.AkumaKOTH.Utils.Methods;
 
 import java.util.*;
@@ -19,38 +21,39 @@ import java.util.*;
 
 public class KOTHArena {
 
-    @Getter @Setter public static HashMap<String, KOTHArena> arenas = new HashMap<>();
+    public static HashMap<String, KOTHArena> arenas = new HashMap<>();
 
-    @Getter private HashMap<Player, Integer> points;
-    @Getter private KOTHHologram hologram;
-    @Getter private List<ItemStack> items;
-    @Getter private String name;
-    @Getter private Inventory inventory;
-    @Getter private Location loc;
-    @Getter private Location pos1;
-    @Getter private Location pos2;
-    @Getter private CustomTask task;
+    private HashMap<Player, Integer> points;
+    private KOTHHologram hologram;
+    private List<ItemStack> items;
+    private String name;
 
-    @Getter private long lastCapture;
-    @Getter private int cooldown;
-    @Getter private int captureTime;
-    @Getter private boolean active;
+    private Inventory inventory;
+    private Location loc;
+    private Location pos1;
+    private Location pos2;
+    private CustomTask task;
+
+    private long lastCapture;
+    private int cooldown;
+    private int captureTime;
+    private boolean active;
 
     public KOTHArena(String name){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
+        YamlConfiguration config = ConfigManager.getConfig();
         if(config.getConfigurationSection(name) == null){
             return;
         }
 
         this.name = name;
-        this.loc = Methods.stringToLocation(config.getString(name + ".loc"));
-        this.pos1 = Methods.stringToLocation(config.getString(name + ".pos1"));
-        this.pos2 = Methods.stringToLocation(config.getString(name + ".pos2"));
+        this.loc = LocationUtil.stringToLocation(config.getString(name + ".loc"));
+        this.pos1 = LocationUtil.stringToLocation(config.getString(name + ".pos1"));
+        this.pos2 = LocationUtil.stringToLocation(config.getString(name + ".pos2"));
         this.points = new HashMap<>();
         this.lastCapture = config.getLong(name + ".lastCapture");
         this.cooldown = config.getInt(name + ".cooldown");
         this.captureTime = config.getInt(name + ".captureTime");
-        this.items = Methods.deserializeItems(config.getString(name + ".inventory"));
+        this.items = ItemUtil.deserializeItems(config.getString(name + ".inventory"));
         active = false;
         setLastCapture();
         arenas.put(name, this);
@@ -72,7 +75,7 @@ public class KOTHArena {
             }
             else{
                 for(Player p : loc.getWorld().getPlayers()) {
-                    if (Methods.isInArea(p.getLocation(), pos1, pos2))
+                    if (LocationUtil.isInArea(p.getLocation(), pos1, pos2))
                         addPoints(p);
                 }
             }
@@ -85,7 +88,7 @@ public class KOTHArena {
     }
 
     public void capture(){
-        Map<Player, Integer> result = Methods.sortPlayers(points);
+        Map<Player, Integer> result = Methods.sortPlayersByPOINTS(points);
         List<Player> players = new ArrayList<>(result.keySet());
         Player p = null;
         Collections.reverse(players);
@@ -174,7 +177,7 @@ public class KOTHArena {
     }
 
     public void loadInventory(){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
+        YamlConfiguration config = ConfigManager.getConfig();
         if(config.getConfigurationSection(name) == null){
             return;
         }
@@ -184,26 +187,26 @@ public class KOTHArena {
     }
 
     public void saveArena(){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
-        config.set(name + ".loc", Methods.locationToString(loc));
-        config.set(name + ".pos1", Methods.locationToString(pos1));
-        config.set(name + ".pos2", Methods.locationToString(pos2));
+        YamlConfiguration config = ConfigManager.getConfig();
+        config.set(name + ".loc", LocationUtil.locationToString(loc));
+        config.set(name + ".pos1", LocationUtil.locationToString(pos1));
+        config.set(name + ".pos2", LocationUtil.locationToString(pos2));
         config.set(name + ".lastCapture", lastCapture);
         config.set(name + ".cooldown", cooldown);
         config.set(name + ".captureTime", captureTime);
-        config.set(name + ".inventory", Methods.serializeItems(items));
+        config.set(name + ".inventory", ItemUtil.serializeItems(items));
         ConfigManager.saveConfig("arenas");
     }
 
     public void saveArenaWithName(String name){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
-        config.set(name + ".loc", Methods.locationToString(loc));
-        config.set(name + ".pos1", Methods.locationToString(pos1));
-        config.set(name + ".pos2", Methods.locationToString(pos2));
+        YamlConfiguration config = ConfigManager.getConfig();
+        config.set(name + ".loc", LocationUtil.locationToString(loc));
+        config.set(name + ".pos1", LocationUtil.locationToString(pos1));
+        config.set(name + ".pos2", LocationUtil.locationToString(pos2));
         config.set(name + ".lastCapture", lastCapture);
         config.set(name + ".cooldown", cooldown);
         config.set(name + ".captureTime", captureTime);
-        config.set(name + ".inventory", Methods.serializeItems(items));
+        config.set(name + ".inventory", ItemUtil.serializeItems(items));
         ConfigManager.saveConfig("arenas");
     }
 
@@ -212,22 +215,22 @@ public class KOTHArena {
     }
 
     public static void createDefaultArena(String name){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
+        YamlConfiguration config = ConfigManager.getConfig();
 
-        config.set(name + ".loc", Methods.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
-        config.set(name + ".pos1", Methods.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
-        config.set(name + ".pos2", Methods.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
+        config.set(name + ".loc", LocationUtil.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
+        config.set(name + ".pos1", LocationUtil.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
+        config.set(name + ".pos2", LocationUtil.locationToString(Bukkit.getWorlds().get(0).getSpawnLocation()));
         config.set(name + ".lastCapture", System.currentTimeMillis());
         config.set(name + ".cooldown", 60);
         config.set(name + ".captureTime", 60);
-        config.set(name + ".inventory", Methods.serializeItems(new ArrayList<>()));
+        config.set(name + ".inventory", ItemUtil.serializeItems(new ArrayList<>()));
         ConfigManager.saveConfig("arenas");
 
         new KOTHArena(name);
     }
 
     public static void deleteArena(String name){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
+        YamlConfiguration config = ConfigManager.getConfig();
         KOTHArena arena = getArena(name);
         config.set(name, null);
         ConfigManager.saveConfig("arenas");
@@ -236,5 +239,62 @@ public class KOTHArena {
             arena.getTask().getRunnable().cancel();
 
         arenas.remove(name);
+    }
+
+
+    public static HashMap<String, KOTHArena> getArenas() {
+        return arenas;
+    }
+
+    public HashMap<Player, Integer> getPoints() {
+        return points;
+    }
+
+    public KOTHHologram getHologram() {
+        return hologram;
+    }
+
+    public List<ItemStack> getItems() {
+        return items;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+
+    public Location getLoc() {
+        return loc;
+    }
+
+    public Location getPos1() {
+        return pos1;
+    }
+
+    public Location getPos2() {
+        return pos2;
+    }
+
+    public CustomTask getTask() {
+        return task;
+    }
+
+    public long getLastCapture() {
+        return lastCapture;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public int getCaptureTime() {
+        return captureTime;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 }

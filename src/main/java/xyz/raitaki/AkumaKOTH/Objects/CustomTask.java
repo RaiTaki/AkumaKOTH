@@ -8,9 +8,9 @@ import java.util.function.Consumer;
 
 public class CustomTask {
 
-    @Getter private int delay;
-    @Getter private int period;
-    @Getter private BukkitRunnable runnable;
+    private int delay;
+    private int period;
+    private BukkitRunnable runnable;
 
     public CustomTask( int delay, int period){
         this.delay = delay;
@@ -34,5 +34,17 @@ public class CustomTask {
                 runnable.runTaskLater(AkumaKOTH.getInstance(), delay);
             else
                 runnable.runTaskTimer(AkumaKOTH.getInstance(), delay, period);
+    }
+
+    public int getDelay() {
+        return delay;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public BukkitRunnable getRunnable() {
+        return runnable;
     }
 }

@@ -8,8 +8,8 @@ import xyz.raitaki.AkumaKOTH.Objects.KOTHArena;
 public class KOTHStartEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    @Getter private final KOTHArena arena;
-    @Getter private final String name;
+    private final KOTHArena arena;
+    private final String name;
 
     public KOTHStartEvent(KOTHArena arena) {
         this.arena = arena;
@@ -23,5 +23,13 @@ public class KOTHStartEvent extends Event {
 
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+
+    public KOTHArena getArena() {
+        return arena;
+    }
+
+    public String getName() {
+        return name;
     }
 }

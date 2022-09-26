@@ -9,6 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import xyz.raitaki.AkumaKOTH.Objects.KOTHArena;
+import xyz.raitaki.AkumaKOTH.Utils.ItemUtil;
 import xyz.raitaki.AkumaKOTH.Utils.Methods;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class Events implements Listener {
         if (KOTHArena.getArena(title) == null) {
             return;
         }
-        List<ItemStack> items = Methods.arrayToList(event.getInventory().getContents());
+        List<ItemStack> items = ItemUtil.arrayToList(event.getInventory().getContents());
         KOTHArena.getArena(title).setItems(items);
     }
 

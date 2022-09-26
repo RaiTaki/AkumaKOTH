@@ -14,9 +14,9 @@ import java.util.TimeZone;
 
 public final class AkumaKOTH extends JavaPlugin {
 
-    @Getter private static AkumaKOTH instance;
-    @Getter private static String prefix = "§8[§cAkumaKOTH§8]§r ";
-    @Getter private static TimeZone timezone = TimeZone.getTimeZone("UTC");
+    private static AkumaKOTH instance;
+    private static String prefix = "§8[§cAkumaKOTH§8]§r ";
+    private TimeZone timezone = TimeZone.getTimeZone("UTC");
 
     @Override
     public void onEnable() {
@@ -47,10 +47,19 @@ public final class AkumaKOTH extends JavaPlugin {
     }
 
     public void loadArenas(){
-        YamlConfiguration config = ConfigManager.getConfig("arenas");
+        YamlConfiguration config = ConfigManager.getConfig();
 
         for(String arenaName : config.getKeys(false)){
             new KOTHArena(arenaName);;
         }
     }
+
+    public static AkumaKOTH getInstance() {
+        return instance;
+    }
+
+    public static String getPrefix() {
+        return prefix;
+    }
+
 }

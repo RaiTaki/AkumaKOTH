@@ -10,8 +10,8 @@ import xyz.raitaki.AkumaKOTH.Utils.Methods;
 
 public class Hologram {
 
-    @Getter private String text;
-    @Getter private Location loc;
+    private String text;
+    private Location loc;
     private EntityArmorStand armorStand;
 
     public Hologram(String text, Location loc) {
@@ -53,6 +53,18 @@ public class Hologram {
         if(text.length() < 2) return;
         EntityPlayer ep = ((CraftPlayer)p).getHandle();
         ep.playerConnection.sendPacket(new PacketPlayOutEntityMetadata(armorStand.getId(), armorStand.getDataWatcher(), true));
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Location getLoc() {
+        return loc;
+    }
+
+    public EntityArmorStand getArmorStand() {
+        return armorStand;
     }
 }
 

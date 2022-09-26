@@ -11,9 +11,9 @@ import javax.annotation.Nullable;
 public class KOTHCapEvent extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    @Getter private final Player player;
-    @Getter private final KOTHArena arena;
-    @Getter private final String name;
+    private final Player player;
+    private final KOTHArena arena;
+    private final String name;
 
     public KOTHCapEvent(KOTHArena arena, @Nullable Player player) {
         this.player = player;
@@ -28,5 +28,17 @@ public class KOTHCapEvent extends Event {
 
     public static HandlerList getHandlerList() {
         return HANDLERS;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public KOTHArena getArena() {
+        return arena;
+    }
+
+    public String getName() {
+        return name;
     }
 }

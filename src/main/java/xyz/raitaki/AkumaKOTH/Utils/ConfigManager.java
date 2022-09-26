@@ -9,7 +9,8 @@ import java.io.File;
 import java.util.HashMap;
 
 public class ConfigManager {
-    @Getter private static HashMap<String, YamlConfiguration> configs = new HashMap<>();
+
+    private static YamlConfiguration config = null;
 
     @SneakyThrows
     public static void loadConfig(String name) {
@@ -21,41 +22,28 @@ public class ConfigManager {
             }
             file.createNewFile();
         }
-
-        YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-        configs.put(name, config);
+        config = YamlConfiguration.loadConfiguration(file);
     }
 
-    public static YamlConfiguration getConfig(String name) {
-        if(!configs.containsKey(name)) {
-            loadConfig(name);
+    public static YamlConfiguration getConfig() {
+        if(config == null) {
+            loadConfig("arenas");
         }
-        return configs.get(name);
+        return config;
     }
 
     public static void setData(String name, String path, Object value) {
-        getConfig(name).set(path, value);
+        config.set(path, value);
         saveConfig(name);
     }
 
     @SneakyThrows
     public static void saveConfig(String name) {
-        getConfig(name).save(new File(AkumaKOTH.getInstance().getDataFolder(), name + ".yml"));
+        config.save(new File(AkumaKOTH.getInstance().getDataFolder(), name + ".yml"));
     }
 
     public static void reloadConfig(String name) {
         loadConfig(name);
     }
 
-    public static void reloadAllConfigs() {
-        for(String name : configs.keySet()) {
-            reloadConfig(name);
-        }
-    }
-
-    public static void saveAllConfigs() {
-        for(String name : configs.keySet()) {
-            saveConfig(name);
-        }
-    }
 }

@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import xyz.raitaki.AkumaKOTH.Objects.KOTHArena;
+import xyz.raitaki.AkumaKOTH.Utils.LocationUtil;
 import xyz.raitaki.AkumaKOTH.Utils.Methods;
 
 public class ArenaCommand implements CommandExecutor {
@@ -171,7 +172,7 @@ public class ArenaCommand implements CommandExecutor {
                     sender.sendMessage("§cAn arena with this name doesn't exist!");
                     return true;
                 }
-                Block block = Methods.getTargetBlock(p, 7);
+                Block block = LocationUtil.getTargetBlock(p, 7);
                 if(block == null){
                     sender.sendMessage("§cYou have to look at a block!");
                     return true;
@@ -191,7 +192,7 @@ public class ArenaCommand implements CommandExecutor {
                     sender.sendMessage("§cAn arena with this name doesn't exist!");
                     return true;
                 }
-                Block block = Methods.getTargetBlock(p, 7);
+                Block block = LocationUtil.getTargetBlock(p, 7);
                 if(block == null){
                     sender.sendMessage("§cYou have to look at a block!");
                     return true;

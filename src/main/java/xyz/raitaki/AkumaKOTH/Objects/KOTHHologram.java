@@ -10,9 +10,9 @@ import java.util.*;
 
 public class KOTHHologram {
 
-    @Getter private KOTHArena arena;
-    @Getter private List<Hologram> holograms;
-    @Getter private List<Player> showedTo;
+    private KOTHArena arena;
+    private List<Hologram> holograms;
+    private List<Player> showedTo;
 
     public KOTHHologram(KOTHArena arena) {
         this.arena = arena;
@@ -37,7 +37,7 @@ public class KOTHHologram {
     }
 
     public void updateText(){
-        Map<Player, Integer> sortedPlayers = Methods.sortPlayers(arena.getPoints());
+        Map<Player, Integer> sortedPlayers = Methods.sortPlayersByPOINTS(arena.getPoints());
 
         for(int i = 2; i < holograms.size(); i++) {
             try {
@@ -84,5 +84,17 @@ public class KOTHHologram {
             }
         }
         showedTo.clear();
+    }
+
+    public KOTHArena getArena() {
+        return arena;
+    }
+
+    public List<Hologram> getHolograms() {
+        return holograms;
+    }
+
+    public List<Player> getShowedTo() {
+        return showedTo;
     }
 }
