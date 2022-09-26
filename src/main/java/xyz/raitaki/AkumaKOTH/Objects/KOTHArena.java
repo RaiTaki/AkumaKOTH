@@ -1,7 +1,5 @@
 package xyz.raitaki.AkumaKOTH.Objects;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -296,5 +294,9 @@ public class KOTHArena {
 
     public boolean isActive() {
         return active;
+    }
+
+    public static List<KOTHArena> getArenas() {
+        return arenas;
     }
 }

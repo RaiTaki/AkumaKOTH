@@ -40,7 +40,7 @@ public class Events implements Listener {
     @EventHandler
     public void playerQuitEvent(PlayerQuitEvent event){
         Player player = event.getPlayer();
-        KOTHArena.getArenas().values().forEach(arena -> {
+        KOTHArena.getArenas().forEach(arena -> {
             arena.getPoints().remove(player);
             arena.getHologram().getShowedTo().remove(player);
         });

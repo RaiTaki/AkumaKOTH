@@ -55,7 +55,7 @@ public class ArenaCommand implements CommandExecutor {
         }
         else if(args[0].equalsIgnoreCase("list")){
             sender.sendMessage("§aArenas:");
-            for(KOTHArena arena : KOTHArena.getArenas().values()){
+            for(KOTHArena arena : KOTHArena.getArenas()){
                 sender.sendMessage("§7- §a" + arena.getName());
             }
             return true;

@@ -16,7 +16,6 @@ public final class AkumaKOTH extends JavaPlugin {
 
     private static AkumaKOTH instance;
     private static String prefix = "§8[§cAkumaKOTH§8]§r ";
-    private TimeZone timezone = TimeZone.getTimeZone("UTC");
 
     @Override
     public void onEnable() {
@@ -39,7 +38,7 @@ public final class AkumaKOTH extends JavaPlugin {
     public void startTimer(){
         CustomTask task = new CustomTask(30, 60);
         task.start(runnable -> {
-            for(KOTHArena arena : KOTHArena.getArenas().values()){
+            for(KOTHArena arena : KOTHArena.getArenas()){
                 if(arena.shouldStart())
                     arena.start();
             }

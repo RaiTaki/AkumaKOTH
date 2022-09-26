@@ -33,7 +33,7 @@ public class ArenaCompleter implements TabCompleter {
         }
         if(args.length == 2){
             if(!args[0].equalsIgnoreCase("list"))
-                commands.addAll(KOTHArena.getArenas().keySet());
+                commands.addAll(KOTHArena.getArenas().stream().map(KOTHArena::getName).toList());
 
             if(args[0].equalsIgnoreCase("create"))
                 commands.clear();
